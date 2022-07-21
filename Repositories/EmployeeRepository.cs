@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Qulix.Data;
 using Qulix.Entities;
 
@@ -34,8 +35,8 @@ public class EmployeeRepository : IEmployeeRepository
     {
         try
         {
-            var employee = (await GetCompanyByIdAsync(id)).Employee;
-            _context.Companies.Remove(employee);
+            var employee = (await GetEmployeeByIdAsync(id)).Employee;
+            _context.Employees.Remove(employee);
             await _context.SaveChangesAsync();
             _logger.LogInformation("Employee was deleted.");
             return(true, null);
@@ -49,17 +50,29 @@ public class EmployeeRepository : IEmployeeRepository
 
     public async Task<(bool IsSuccess, Exception Exception, Employee Employee)> GetEmployeeByIdAsync(int id)
     {
-        var employee = await _context.Employees.Include(p => p.CompanyId).FirstOrDefaultAsync(c => c.Id == id);
+        var employee = await _context.Employees.Include(p => p.Company).FirstOrDefaultAsync(c => c.Id == id);
         return (true, null , employee);
     }
 
-    public Task<(bool IsSuccess, Exception Exception, List<Employee> Employees)> GetEmployeesAsync()
+    public async Task<(bool IsSuccess, Exception Exception, List<Employee> Employees)> GetEmployeesAsync()
     {
-        throw new NotImplementedException();
+        var employees = _context.Employees.Include(p => p.Company).ToList();
+        return (true, null, employees);
     }
 
-    public Task<(bool IsSuccess, Exception Exception)> UpdateEmployeeAsync(Employee entity)
+    public async Task<(bool IsSuccess, Exception Exception)> UpdateEmployeeAsync(Employee entity)
     {
-        throw new NotImplementedException();
+        try
+        {
+            _context.Employees.Update(entity);
+            await _context.SaveChangesAsync();
+            _logger.LogInformation("Employee was updated.");
+            return(true, null);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError($"Employee was not updated. Exception: {e.Message}");
+            return(false, e);
+        }
     }
 }

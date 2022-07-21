@@ -9,7 +9,7 @@ public class Employee
     public string Firstname { get; set; }
     public string Lastname { get; set; }
     public string Middlename { get; set; }
-    public DateTime SignedDate { get; set; }
+    // public DateTimeOffset SignedDate { get; set; }
     public EPosition Position { get; set; }
 
     [ForeignKey(nameof(CompanyId))]

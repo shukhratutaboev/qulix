@@ -1,0 +1,50 @@
+@model EmployeeViewModel
+
+<form method="post" enctype="multipart/form-data">
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary">Create Employee</h2>
+			<hr />
+		</div>
+		<div class="mb-3">
+			<label asp-for="Firstname"></label>
+			<input asp-for="Firstname" class="form-control" />
+			<span asp-validation-for="Firstname" class="text-danger"></span>
+		</div>
+        <div class="mb-3">
+			<label asp-for="Lastname"></label>
+			<input asp-for="Lastname" class="form-control" />
+			<span asp-validation-for="Lastname" class="text-danger"></span>
+		</div>
+        <div class="mb-3">
+			<label asp-for="Middlename"></label>
+			<input asp-for="Middlename" class="form-control" />
+			<span asp-validation-for="Middlename" class="text-danger"></span>
+		</div>
+        @* <div class="mb-3">
+			<label asp-for="SignedDate"></label>
+			<input asp-for="SignedDate" class="form-control" />
+			<span asp-validation-for="SignedDate" class="text-danger"></span>
+		</div> *@
+        <div class="mb-3">
+			<label asp-for="Position"></label>
+			<input asp-for="Position" class="form-control" />
+			<span asp-validation-for="Position" class="text-danger"></span>
+		</div>
+        <div class="mb-3">
+			<label asp-for="CompanyId"></label>
+			<input asp-for="CompanyId" class="form-control" />
+			<span asp-validation-for="CompanyId" class="text-danger"></span>
+		</div>
+		<button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+		<a asp-controller="Dashboard" asp-action="Items" class="btn btn-secondary" style="width:150px">
+			Back to List
+		</a>
+	</div>
+</form>
+
+@section Scripts{
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+}
